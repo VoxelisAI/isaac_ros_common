@@ -105,7 +105,7 @@ fi
 
 PLATFORM="$(uname -m)"
 
-BASE_NAME="isaac_ros_dev-$PLATFORM"
+BASE_NAME="vampire_isaac_ros_dev-$PLATFORM"
 CONTAINER_NAME="$BASE_NAME-container"
 
 # Remove any exited containers.
@@ -145,8 +145,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # Map host's display socket to docker
-DOCKER_ARGS+=("-v /tmp/.X11-unix:/tmp/.X11-unix")
-DOCKER_ARGS+=("-v $HOME/.Xauthority:/home/admin/.Xauthority:rw")
+# DOCKER_ARGS+=("-v /tmp/.X11-unix:/tmp/.X11-unix")
+# DOCKER_ARGS+=("-v $HOME/.Xauthority:/home/admin/.Xauthority:rw")
 DOCKER_ARGS+=("-e DISPLAY")
 DOCKER_ARGS+=("-e NVIDIA_VISIBLE_DEVICES=all")
 DOCKER_ARGS+=("-e NVIDIA_DRIVER_CAPABILITIES=all")
@@ -156,7 +156,7 @@ DOCKER_ARGS+=("-e USER")
 
 if [[ $PLATFORM == "aarch64" ]]; then
     DOCKER_ARGS+=("-v /usr/bin/tegrastats:/usr/bin/tegrastats")
-    DOCKER_ARGS+=("-v /tmp/argus_socket:/tmp/argus_socket")
+    DOCKER_ARGS+=("-v /tmp:/tmp")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusolver.so.11:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusolver.so.11")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusparse.so.11:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusparse.so.11")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libcurand.so.10:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libcurand.so.10")
@@ -171,6 +171,7 @@ if [[ $PLATFORM == "aarch64" ]]; then
     DOCKER_ARGS+=("--pid=host")
     DOCKER_ARGS+=("-v /opt/nvidia/vpi2:/opt/nvidia/vpi2")
     DOCKER_ARGS+=("-v /usr/share/vpi2:/usr/share/vpi2")
+    DOCKER_ARGS+=("-v /opt/nvidia/nsight-systems/2023.2.4/target-linux-tegra-armv8:/opt/nvidia/nsight-systems/2023.2.4/target-linux-tegra-armv8")
 
     # If jtop present, give the container access
     if [[ $(getent group jtop) ]]; then
@@ -194,10 +195,17 @@ fi
 print_info "Running $CONTAINER_NAME"
 docker run -it --rm \
     --privileged \
+    -e DISPLAY \
+    -e QT_X11_NO_MITSHM=1 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v /home/nvidia/.Xauthority:/home/admin/.Xauthority \
     --network host \
     ${DOCKER_ARGS[@]} \
     -v $ISAAC_ROS_DEV_DIR:/workspaces/isaac_ros-dev \
     -v /dev/*:/dev/* \
+    -v /tmp:/tmp \
+    -v /usr/bin/nvgstcapture:/usr/bin/nvgstcapture \
+    -v /usr/bin/nvgstcapture-1.0:/usr/bin/nvgstcapture-1.0 \
     -v /etc/localtime:/etc/localtime:ro \
     --name "$CONTAINER_NAME" \
     --runtime nvidia \
