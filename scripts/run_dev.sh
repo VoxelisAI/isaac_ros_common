@@ -24,23 +24,27 @@ if [[ -f "${ROOT}/.isaac_ros_common-config" ]]; then
     . "${ROOT}/.isaac_ros_common-config"
 fi
 
-ISAAC_ROS_DEV_DIR="$1"
-if [[ -z "$ISAAC_ROS_DEV_DIR" ]]; then
-    ISAAC_ROS_DEV_DIR_DEFAULTS=("$HOME/workspaces/isaac_ros-dev" "/workspaces/isaac_ros-dev")
-    for ISAAC_ROS_DEV_DIR in "${ISAAC_ROS_DEV_DIR_DEFAULTS[@]}"
+# VAMPIRE_VAMPIRE_ISAAC_ROS_DEV_DIR="$1"
+current_dir=$(pwd)
+vampire_dir=$(echo "$current_dir" | cut -d'/' -f-3)
+export VAMPIRE_ISAAC_ROS_DEV_DIR="$vampire_dir"
+
+if [[ -z "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
+    VAMPIRE_ISAAC_ROS_DEV_DIR_DEFAULTS=("$HOME/workspaces/isaac_ros-dev" "/workspaces/isaac_ros-dev")
+    for VAMPIRE_ISAAC_ROS_DEV_DIR in "${VAMPIRE_ISAAC_ROS_DEV_DIR_DEFAULTS[@]}"
     do
-        if [[ -d "$ISAAC_ROS_DEV_DIR" ]]; then
+        if [[ -d "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
             break
         fi
     done
 
-    if [[ ! -d "$ISAAC_ROS_DEV_DIR" ]]; then
-        ISAAC_ROS_DEV_DIR=$(realpath "$ROOT/../")
+    if [[ ! -d "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
+        VAMPIRE_ISAAC_ROS_DEV_DIR=$(realpath "$ROOT/../")
     fi
-    print_warning "isaac_ros_dev not specified, assuming $ISAAC_ROS_DEV_DIR"
+    print_warning "isaac_ros_dev not specified, assuming $VAMPIRE_ISAAC_ROS_DEV_DIR"
 else
-    if [[ ! -d "$ISAAC_ROS_DEV_DIR" ]]; then
-        print_error "Specified isaac_ros_dev does not exist: $ISAAC_ROS_DEV_DIR"
+    if [[ ! -d "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
+        print_error "Specified isaac_ros_dev does not exist: $VAMPIRE_ISAAC_ROS_DEV_DIR"
         exit 1
     fi
     shift 1
@@ -93,7 +97,7 @@ fi
 cd $ROOT
 git rev-parse &>/dev/null
 if [[ $? -eq 0 ]]; then
-    LFS_FILES_STATUS=$(cd $ISAAC_ROS_DEV_DIR && git lfs ls-files | cut -d ' ' -f2)
+    LFS_FILES_STATUS=$(cd $VAMPIRE_ISAAC_ROS_DEV_DIR && git lfs ls-files | cut -d ' ' -f2)
     for (( i=0; i<${#LFS_FILES_STATUS}; i++ )); do
         f="${LFS_FILES_STATUS:$i:1}"
         if [[ "$f" == "-" ]]; then
@@ -201,7 +205,7 @@ docker run -it --rm \
     -v /home/nvidia/.Xauthority:/home/admin/.Xauthority \
     --network host \
     ${DOCKER_ARGS[@]} \
-    -v $ISAAC_ROS_DEV_DIR:/workspaces/isaac_ros-dev \
+    -v $VAMPIRE_ISAAC_ROS_DEV_DIR:/workspaces/isaac_ros-dev \
     -v /dev/*:/dev/* \
     -v /tmp:/tmp \
     -v /usr/bin/nvgstcapture:/usr/bin/nvgstcapture \
