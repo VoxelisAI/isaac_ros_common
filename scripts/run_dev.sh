@@ -25,9 +25,16 @@ if [[ -f "${ROOT}/.isaac_ros_common-config" ]]; then
 fi
 
 # VAMPIRE_VAMPIRE_ISAAC_ROS_DEV_DIR="$1"
-current_dir=$(pwd)
-vampire_dir=$(echo "$current_dir" | cut -d'/' -f-3)
+script_dir=$(dirname "$0")
+
+# absolute path of this script file
+current_dir=$(cd "$script_dir" && pwd)
+
+echo "current script path is: $current_dir"
+
+vampire_dir=$(echo "$current_dir" | rev | cut -d'/' -f4- | rev)
 export VAMPIRE_ISAAC_ROS_DEV_DIR="$vampire_dir"
+echo "VAMPIRE_ISAAC_ROS_DEV_DIR is: $VAMPIRE_ISAAC_ROS_DEV_DIR"
 
 if [[ -z "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
     VAMPIRE_ISAAC_ROS_DEV_DIR_DEFAULTS=("$HOME/workspaces/isaac_ros-dev" "/workspaces/isaac_ros-dev")
@@ -214,7 +221,7 @@ docker run -it --rm \
     --name "$CONTAINER_NAME" \
     --runtime nvidia \
     --user="admin" \
-    --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
+    --entrypoint /usr/local/bin/scripts/camera_pipeline_entrypoint.sh \
     --workdir /workspaces/isaac_ros-dev \
     $@ \
     $BASE_NAME \
