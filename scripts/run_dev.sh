@@ -38,10 +38,11 @@ echo "VAMPIRE_ISAAC_ROS_DEV_DIR is: $VAMPIRE_ISAAC_ROS_DEV_DIR"
 
 # update github repos
 cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/isaac_ros_common
+git checkout -b vampire origin/vampire
 git pull
 
 cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera
-git switch origin/nitros_adapation
+git checkout -b nitros_adapation origin/nitros_adapation
 git pull
 
 if [[ -z "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
