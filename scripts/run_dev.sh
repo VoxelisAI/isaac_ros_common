@@ -38,12 +38,14 @@ echo "VAMPIRE_ISAAC_ROS_DEV_DIR is: $VAMPIRE_ISAAC_ROS_DEV_DIR"
 
 # update github repos
 cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/isaac_ros_common
-git checkout -b vampire origin/vampire
 git pull
+git checkout -b vampire origin/vampire
+
 
 cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera
-git checkout -b nitros_adapation origin/nitros_adapation
 git pull
+git checkout -b nitros_adapation origin/nitros_adapation
+
 
 if [[ -z "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
     VAMPIRE_ISAAC_ROS_DEV_DIR_DEFAULTS=("$HOME/workspaces/isaac_ros-dev" "/workspaces/isaac_ros-dev")
