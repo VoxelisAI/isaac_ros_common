@@ -36,6 +36,14 @@ vampire_dir=$(echo "$current_dir" | rev | cut -d'/' -f4- | rev)
 export VAMPIRE_ISAAC_ROS_DEV_DIR="$vampire_dir"
 echo "VAMPIRE_ISAAC_ROS_DEV_DIR is: $VAMPIRE_ISAAC_ROS_DEV_DIR"
 
+# update github repos
+cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/isaac_ros_common
+git pull
+
+cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera
+git switch origin/nitros_adapation
+git pull
+
 if [[ -z "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
     VAMPIRE_ISAAC_ROS_DEV_DIR_DEFAULTS=("$HOME/workspaces/isaac_ros-dev" "/workspaces/isaac_ros-dev")
     for VAMPIRE_ISAAC_ROS_DEV_DIR in "${VAMPIRE_ISAAC_ROS_DEV_DIR_DEFAULTS[@]}"
@@ -175,6 +183,7 @@ if [[ $PLATFORM == "aarch64" ]]; then
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libnvToolsExt.so:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libnvToolsExt.so")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libcupti.so.11.4:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libcupti.so.11.4")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libcudla.so.1:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libcudla.so.1")
+    DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/include/nvtx3:/usr/local/cuda-11.4/targets/aarch64-linux/include/nvtx3")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/include/nvToolsExt.h:/usr/local/cuda-11.4/targets/aarch64-linux/include/nvToolsExt.h")
     DOCKER_ARGS+=("-v /usr/lib/aarch64-linux-gnu/tegra:/usr/lib/aarch64-linux-gnu/tegra")
     DOCKER_ARGS+=("-v /usr/src/jetson_multimedia_api:/usr/src/jetson_multimedia_api")

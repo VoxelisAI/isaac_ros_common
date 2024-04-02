@@ -21,22 +21,31 @@ sudo service udev restart
 
 # $@
 
+cd /workspaces/isaac_ros-dev
+source install/setup.bash
 cd /workspaces/isaac_ros-dev/src
 git clone https://github.com/NVIDIA-ISAAC-ROS/gxf
 git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nitros
 
-cd /workspaces/isaac_ros-dev/src/gxf && \
-  ./build_install_gxf_release.sh -i /workspaces/isaac_ros-dev/src/isaac_ros_nitros/isaac_ros_gxf
+# cd /workspaces/isaac_ros-dev/src/gxf && \
+#   ./build_install_gxf_release.sh -i /workspaces/isaac_ros-dev/src/isaac_ros_nitros/isaac_ros_gxf
 
-# leopard camera pipeline
-cd /workspaces/isaac_ros-dev/src/isaac_ros_common
-git pull
+# # leopard camera pipeline
+# cd /workspaces/isaac_ros-dev/src/isaac_ros_common
+# git pull
 
-cd /workspaces/isaac_ros-dev/src/r2_libargus_sync_camera
-git switch origin/nitros_adapation
-git pull
+# cd /workspaces/isaac_ros-dev/src/r2_libargus_sync_camera
+# git switch origin/nitros_adapation
+# git pull
 
-cd /worksapces/isaac_ros-dev
+cd /workspaces/isaac_ros-dev
+
+# Check if current directory is /workspaces/isaac_ros-dev
+if [[ "$(pwd)" != *"/workspaces/isaac_ros-dev"* ]]; then
+    echo "Error: Not in /workspaces/isaac_ros-dev directory. Please navigate to /workspaces/isaac_ros-dev before running this script."
+    exit 1
+fi
+
 source /opt/ros/humble/setup.bash
 source install/setup.bash
 
