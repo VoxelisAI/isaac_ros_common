@@ -127,7 +127,7 @@ fi
 
 PLATFORM="$(uname -m)"
 
-BASE_NAME="vampire_isaac_ros_dev-$PLATFORM"
+BASE_NAME="vampire_mk0_isaac_ros_dev-$PLATFORM"
 CONTAINER_NAME="$BASE_NAME-container"
 
 # Remove any exited containers.
