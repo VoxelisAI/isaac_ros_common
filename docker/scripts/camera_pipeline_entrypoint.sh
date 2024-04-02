@@ -49,8 +49,10 @@ fi
 source /opt/ros/humble/setup.bash
 source install/setup.bash
 
-colcon build
-# colcon build --packages-select libargus_sync_camera
+# colcon build
+colcon build --packages-ignore libargus_sync_camera
+source install/setup.bash
+colcon build --packages-select libargus_sync_camera
 source install/setup.bash
 
 

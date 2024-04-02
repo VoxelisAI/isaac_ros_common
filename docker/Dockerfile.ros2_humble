@@ -239,6 +239,8 @@ RUN apt-get update && apt-get install -y \
     ros-humble-rqt-reconfigure \
     ros-humble-rviz-common \
     ros-humble-rviz-default-plugins \
-    
+    ros-humble-isaac-ros-yolov8 \
+    ros-humble-isaac-ros-tensor-rt \
+    ros-humble-isaac-ros-dnn-image-encoder \
 && rm -rf /var/lib/apt/lists/* \
 && apt-get clean
