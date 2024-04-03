@@ -36,6 +36,7 @@ vampire_dir=$(echo "$current_dir" | rev | cut -d'/' -f4- | rev)
 export VAMPIRE_ISAAC_ROS_DEV_DIR="$vampire_dir"
 echo "VAMPIRE_ISAAC_ROS_DEV_DIR is: $VAMPIRE_ISAAC_ROS_DEV_DIR"
 
+
 # update github repos
 cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/isaac_ros_common
 git pull
@@ -45,6 +46,10 @@ git checkout -b vampire origin/vampire
 cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera
 git pull
 git checkout -b nitros_adapation origin/nitros_adapation
+
+# load camera driver bin files
+sudo insmod $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera/resources/max929x.ko
+sudo insmod $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera/resources/imx568.ko
 
 
 if [[ -z "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
