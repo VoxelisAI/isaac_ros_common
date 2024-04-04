@@ -8,6 +8,8 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 
+export TERM=xterm
+
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $ROOT/utils/print_color.sh
 
@@ -48,8 +50,8 @@ git pull
 git checkout -b nitros_adapation origin/nitros_adapation
 
 # load camera driver bin files
-sudo insmod $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera/resources/max929x.ko
-sudo insmod $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera/resources/imx568.ko
+# insmod $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera/resources/max929x.ko
+# insmod $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera/resources/imx568.ko
 
 
 if [[ -z "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
@@ -136,9 +138,10 @@ BASE_NAME="vampire_mk0_isaac_ros_dev-$PLATFORM"
 CONTAINER_NAME="$BASE_NAME-container"
 
 # Remove any exited containers.
-if [ "$(docker ps -a --quiet --filter status=exited --filter name=$CONTAINER_NAME)" ]; then
-    docker rm $CONTAINER_NAME > /dev/null
-fi
+# if [ "$(docker ps -a --quiet --filter status=exited --filter name=$CONTAINER_NAME)" ]; then
+docker rm -f $CONTAINER_NAME
+docker rmi -f $BASE_NAME
+# fi
 
 # Re-use existing container.
 if [ "$(docker ps -a --quiet --filter status=running --filter name=$CONTAINER_NAME)" ]; then
@@ -222,7 +225,7 @@ fi
 
 # Run container from image
 print_info "Running $CONTAINER_NAME"
-docker run -it --rm \
+docker run -t --rm \
     --privileged \
     -e DISPLAY \
     -e QT_X11_NO_MITSHM=1 \
