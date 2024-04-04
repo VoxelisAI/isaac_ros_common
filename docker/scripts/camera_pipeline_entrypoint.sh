@@ -50,16 +50,21 @@ source /opt/ros/humble/setup.bash
 source install/setup.bash
 
 # colcon build
-colcon build --packages-ignore libargus_sync_camera
+colcon build --packages-ignore libargus_sync_camera isaac_ros_yolov8 isaac_ros_yolo_seg
 source install/setup.bash
 colcon build --packages-select libargus_sync_camera
+colcon build --packages-select isaac_ros_yolov8
+colcon build --packages-select isaac_ros_yolo_seg
 source install/setup.bash
 
 
 export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isaac_ros_gxf/gxf/lib/multimedia:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isaac_ros_gxf/gxf/lib/:$LD_LIBRARY_PATH
 
+ros2 launch libargus_sync_camera libargus_sync_camera.launch.py &
+ros2 launch isaac_ros_yolov8 isaac_ros_yolov8_visualize.launch.py model_file_path:=/tmp/yolov8s.onnx engine_file_path:=/tmp/yolov8s.engine input_binding_names:=['images'] output_binding_names:=['output0'] network_image_width:=640 network_image_height:=640 force_engine_update:=False image_mean:=[0.0,0.0,0.0] image_stddev:=[1.0,1.0,1.0] input_image_width:=640 input_image_height:=640 confidence_threshold:=0.25 nms_threshold:=0.45 &
+python /workspaces/isaac_ros-dev/src/r2_object_detection/scripts/forward.py &
 
-ros2 launch libargus_sync_camera libargus_sync_camera.launch.py
+ros2 launch isaac_ros_yolo_seg yolo_launch.py
 
 $@
