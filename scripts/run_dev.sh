@@ -242,8 +242,8 @@ docker run -t --rm \
     --name "$CONTAINER_NAME" \
     --runtime nvidia \
     --user="admin" \
-    --entrypoint /usr/local/bin/scripts/camera_pipeline_entrypoint.sh \
     --workdir /workspaces/isaac_ros-dev \
+    --entrypoint /usr/local/bin/scripts/camera_pipeline_entrypoint.sh \
     $@ \
     $BASE_NAME \
-    /bin/bash
+    /bin/bash 

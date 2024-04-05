@@ -8,6 +8,7 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 
+
 # Build ROS dependency
 echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 source /opt/ros/${ROS_DISTRO}/setup.bash
@@ -18,6 +19,10 @@ rosdep install --from-paths /workspaces/isaac_ros-dev/src --ignore-src -r -y
 
 # Restart udev daemon
 sudo service udev restart
+
+if [ "$1" = "NONE" ]; then
+    $@
+fi
 
 # $@
 
