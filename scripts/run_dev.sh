@@ -42,7 +42,7 @@ echo "VAMPIRE_ISAAC_ROS_DEV_DIR is: $VAMPIRE_ISAAC_ROS_DEV_DIR"
 # update github repos
 cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/isaac_ros_common
 git pull
-git checkout -b vampire origin/vampire
+git checkout -b vampire_secondary origin/vampire_secondary
 
 
 cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera
@@ -134,7 +134,7 @@ fi
 
 PLATFORM="$(uname -m)"
 
-BASE_NAME="vampire_mk0_isaac_ros_dev-$PLATFORM"
+BASE_NAME="vampire_secondary_isaac_ros_dev-$PLATFORM"
 CONTAINER_NAME="$BASE_NAME-container"
 
 # Remove any exited containers.
@@ -242,8 +242,10 @@ docker run -t --rm \
     --name "$CONTAINER_NAME" \
     --runtime nvidia \
     --user="admin" \
-    --entrypoint /usr/local/bin/scripts/camera_pipeline_entrypoint.sh \
     --workdir /workspaces/isaac_ros-dev \
+    --entrypoint /usr/local/bin/scripts/secondary_pipeline_entrypoint.sh \
     $@ \
     $BASE_NAME \
     /bin/bash
+
+        # --entrypoint /usr/local/bin/scripts/secondary_pipeline_entrypoint.sh \
