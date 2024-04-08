@@ -241,7 +241,7 @@ docker run -t --rm \
     -v /etc/localtime:/etc/localtime:ro \
     --name "$CONTAINER_NAME" \
     --runtime nvidia \
-    --user="admin" \
+    --user="root" \
     --workdir /workspaces/isaac_ros-dev \
     --entrypoint /usr/local/bin/scripts/camera_pipeline_entrypoint.sh \
     $@ \

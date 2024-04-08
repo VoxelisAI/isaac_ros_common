@@ -30,7 +30,7 @@ cd /workspaces/isaac_ros-dev
 source install/setup.bash
 cd /workspaces/isaac_ros-dev/src
 # git clone https://github.com/NVIDIA-ISAAC-ROS/gxf
-# git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nitros
+git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nitros
 
 # cd /workspaces/isaac_ros-dev/src/gxf && \
 #   ./build_install_gxf_release.sh -i /workspaces/isaac_ros-dev/src/isaac_ros_nitros/isaac_ros_gxf
