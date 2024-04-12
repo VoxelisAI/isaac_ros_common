@@ -140,7 +140,7 @@ CONTAINER_NAME="$BASE_NAME-container"
 # Remove any exited containers.
 # if [ "$(docker ps -a --quiet --filter status=exited --filter name=$CONTAINER_NAME)" ]; then
 docker rm -f $CONTAINER_NAME
-docker rmi -f $BASE_NAME
+#docker rmi -f $BASE_NAME
 # fi
 
 # Re-use existing container.
