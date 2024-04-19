@@ -186,7 +186,7 @@ DOCKER_ARGS+=("-e USER")
 
 if [[ $PLATFORM == "aarch64" ]]; then
     DOCKER_ARGS+=("-v /usr/bin/tegrastats:/usr/bin/tegrastats")
-    DOCKER_ARGS+=("-v /tmp:/tmp")
+    # DOCKER_ARGS+=("-v /tmp:/tmp")
     DOCKER_ARGS+=("-v /usr/lib/python3.8/dist-packages/tensorrt:/usr/lib/python3.8/dist-packages/tensorrt")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusolver.so.11:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusolver.so.11")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusparse.so.11:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusparse.so.11")
@@ -235,7 +235,7 @@ docker run -t --rm \
     ${DOCKER_ARGS[@]} \
     -v $VAMPIRE_ISAAC_ROS_DEV_DIR:/workspaces/isaac_ros-dev \
     -v /dev/*:/dev/* \
-    -v /tmp:/tmp \
+    -v /tmp:/tmp:rw \
     -v /usr/bin/nvgstcapture:/usr/bin/nvgstcapture \
     -v /usr/bin/nvgstcapture-1.0:/usr/bin/nvgstcapture-1.0 \
     -v /etc/localtime:/etc/localtime:ro \
