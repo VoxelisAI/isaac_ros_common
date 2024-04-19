@@ -245,6 +245,7 @@ RUN apt-get update && apt-get install -y \
     ros-humble-isaac-ros-nitros \
     ros-humble-isaac-ros-managed-nitros \
     ros-humble-isaac-ros-managed-nitros-interfaces \
+    ros-humble-isaac-ros-image-proc \
 && rm -rf /var/lib/apt/lists/* \
 && apt-get clean
 

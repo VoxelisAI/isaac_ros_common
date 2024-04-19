@@ -62,7 +62,7 @@ source install/setup.bash
 
 
 export DISPLAY=:0
-ros2 launch isaac_ros_yolov8 isaac_ros_yolov8_visualize.launch.py model_file_path:=/tmp/yolov8s.onnx engine_file_path:=/tmp/yolov8s.engine input_binding_names:=['images'] output_binding_names:=['output0'] network_image_width:=640 network_image_height:=640 force_engine_update:=False image_mean:=[0.0,0.0,0.0] image_stddev:=[1.0,1.0,1.0] input_image_width:=640 input_image_height:=640 confidence_threshold:=0.25 nms_threshold:=0.45 &
+ros2 launch isaac_ros_yolov8 isaac_ros_yolov8_visualize.launch.py model_file_path:=/workspaces/isaac_ros-dev/src/r2_image_segmentation/resources/yolov8s.onnx engine_file_path:=/workspaces/isaac_ros-dev/src/r2_image_segmentation/resources/yolov8s.engine input_binding_names:=['images'] output_binding_names:=['output0'] network_image_width:=640 network_image_height:=640 force_engine_update:=False image_mean:=[0.0,0.0,0.0] image_stddev:=[1.0,1.0,1.0] input_image_width:=640 input_image_height:=640 confidence_threshold:=0.25 nms_threshold:=0.45 &
 python /workspaces/isaac_ros-dev/src/r2_object_detection/scripts/forward.py &
 ros2 launch isaac_ros_yolo_seg yolo_launch.py &
 
