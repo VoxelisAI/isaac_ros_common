@@ -74,8 +74,7 @@ export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isa
 
 export DISPLAY=:0
 # ros2 launch libargus_sync_camera libargus_sync_camera.launch.py &
-# ros2 launch libargus_multi_camera libargus_multi_camera_composed.launch.py
-ros2 run libargus_multi_camera libargus_multi_camera
+ros2 launch libargus_multi_camera libargus_multi_camera_composed.launch.py
 
 
 $@
