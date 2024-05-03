@@ -13,7 +13,15 @@
 echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 source /opt/ros/${ROS_DISTRO}/setup.bash
 
-sudo apt-get update
+apt update
+apt install -y ros-humble-isaac-ros-nitros-compressed-image-type \
+        ros-humble-isaac-ros-nitros-camera-info-type \
+        ros-humble-isaac-ros-nitros-image-type \
+        ros-humble-isaac-ros-h264-encoder \
+        ros-humble-isaac-ros-image-proc \
+        ros-humble-isaac-ros-nitros \
+        ros-humble-isaac-ros-gxf \
+        ros-humble-h264-msgs 
 rosdep update
 rosdep install --from-paths /workspaces/isaac_ros-dev/src --ignore-src -r -y
 
@@ -55,9 +63,9 @@ source /opt/ros/humble/setup.bash
 source install/setup.bash
 
 # colcon build
-colcon build --packages-ignore libargus_sync_camera
-source install/setup.bash
-colcon build --packages-select libargus_sync_camera
+# colcon build --packages-ignore libargus_sync_camera
+# source install/setup.bash
+colcon build --packages-select libargus_multi_camera
 source install/setup.bash
 
 
@@ -66,7 +74,7 @@ export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isa
 
 export DISPLAY=:0
 # ros2 launch libargus_sync_camera libargus_sync_camera.launch.py &
-# ros2 launch libargus_multi_camera libargus_multi_camera.launch.py
+# ros2 launch libargus_multi_camera libargus_multi_camera_composed.launch.py
 # ros2 run libargus_multi_camera libargus_multi_camera
 
 
