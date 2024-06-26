@@ -13,6 +13,7 @@ export TERM=xterm
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $ROOT/utils/print_color.sh
 
+print_info "Running Isaac ROS development environment, root directory: $ROOT"
 function usage() {
     print_info "Usage: run_dev.sh" {isaac_ros_dev directory path OPTIONAL}
     print_info "Copyright (c) 2021-2022, NVIDIA CORPORATION."
@@ -37,21 +38,6 @@ echo "current script path is: $current_dir"
 vampire_dir=$(echo "$current_dir" | rev | cut -d'/' -f4- | rev)
 export VAMPIRE_ISAAC_ROS_DEV_DIR="$vampire_dir"
 echo "VAMPIRE_ISAAC_ROS_DEV_DIR is: $VAMPIRE_ISAAC_ROS_DEV_DIR"
-
-
-# update github repos
-cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/isaac_ros_common
-git pull
-git checkout -b vampire origin/vampire
-
-
-cd $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera
-git pull
-git checkout -b nitros_adapation origin/nitros_adapation
-
-# load camera driver bin files
-# insmod $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera/resources/max929x.ko
-# insmod $VAMPIRE_ISAAC_ROS_DEV_DIR/src/r2_libargus_sync_camera/resources/imx568.ko
 
 
 if [[ -z "$VAMPIRE_ISAAC_ROS_DEV_DIR" ]]; then
@@ -136,15 +122,15 @@ PLATFORM="$(uname -m)"
 
 BASE_NAME="vampire_mk0_isaac_ros_dev-$PLATFORM"
 CONTAINER_NAME="$BASE_NAME-container"
-
+print_info "Using container name: $CONTAINER_NAME"
 # Remove any exited containers.
-# if [ "$(docker ps -a --quiet --filter status=exited --filter name=$CONTAINER_NAME)" ]; then
+if [ "$(docker ps -a --quiet --filter status=exited --filter name=$CONTAINER_NAME)" ]; then
 docker rm -f $CONTAINER_NAME
-#docker rmi -f $BASE_NAME
-# fi
+# docker rmi -f $BASE_NAME
+fi
 
 # Re-use existing container.
-if [ "$(docker ps -a --quiet --filter status=running --filter name=$CONTAINER_NAME)" ]; then
+if [ "$(docker ps -a --quiet --filter status=running --filter name=^/$CONTAINER_NAME$)" ]; then
     print_info "Attaching to running container: $CONTAINER_NAME"
     docker exec -i -t -u admin --workdir /workspaces/isaac_ros-dev $CONTAINER_NAME /bin/bash $@
     exit 0
@@ -166,6 +152,9 @@ if [[ ! -z "${IMAGE_KEY}" ]]; then
     fi
 fi
 
+# Add vampire tag to base image key
+BASE_IMAGE_KEY=$BASE_IMAGE_KEY.vampire
+
 print_info "Building $BASE_IMAGE_KEY base as image: $BASE_NAME using key $BASE_IMAGE_KEY"
 $ROOT/build_base_image.sh $BASE_IMAGE_KEY $BASE_NAME '' '' ''
 
@@ -175,8 +164,6 @@ if [ $? -ne 0 ]; then
 fi
 
 # Map host's display socket to docker
-# DOCKER_ARGS+=("-v /tmp/.X11-unix:/tmp/.X11-unix")
-# DOCKER_ARGS+=("-v $HOME/.Xauthority:/home/admin/.Xauthority:rw")
 DOCKER_ARGS+=("-e DISPLAY")
 DOCKER_ARGS+=("-e NVIDIA_VISIBLE_DEVICES=all")
 DOCKER_ARGS+=("-e NVIDIA_DRIVER_CAPABILITIES=all")
@@ -186,7 +173,6 @@ DOCKER_ARGS+=("-e USER")
 
 if [[ $PLATFORM == "aarch64" ]]; then
     DOCKER_ARGS+=("-v /usr/bin/tegrastats:/usr/bin/tegrastats")
-    # DOCKER_ARGS+=("-v /tmp:/tmp")
     DOCKER_ARGS+=("-v /usr/lib/python3.8/dist-packages/tensorrt:/usr/lib/python3.8/dist-packages/tensorrt")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusolver.so.11:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusolver.so.11")
     DOCKER_ARGS+=("-v /usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusparse.so.11:/usr/local/cuda-11.4/targets/aarch64-linux/lib/libcusparse.so.11")
@@ -225,7 +211,7 @@ fi
 
 # Run container from image
 print_info "Running $CONTAINER_NAME"
-docker run -t --rm \
+docker run -it --rm \
     --privileged \
     -e DISPLAY \
     -e QT_X11_NO_MITSHM=1 \
