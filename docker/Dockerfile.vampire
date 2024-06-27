@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     ros-humble-mavros-msgs \
     ros-humble-rqt-common-plugins \
     ros-humble-rqt-tf-tree \
+    ros-humble-xacro \
 && rm -rf /var/lib/apt/lists/* \
 && apt-get clean
 
