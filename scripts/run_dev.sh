@@ -120,8 +120,8 @@ fi
 
 PLATFORM="$(uname -m)"
 
-BASE_NAME="vampire_mk0_isaac_ros_dev-$PLATFORM"
-CONTAINER_NAME="$BASE_NAME-container"
+BASE_NAME="vampire_bringup_isaac_ros_dev-$PLATFORM"
+CONTAINER_NAME="$BASE_NAME-container_flight_test"
 print_info "Using container name: $CONTAINER_NAME"
 # Remove any exited containers.
 if [ "$(docker ps -a --quiet --filter status=exited --filter name=$CONTAINER_NAME)" ]; then
@@ -210,8 +210,11 @@ if [[ -f "$DOCKER_ARGS_FILE" ]]; then
 fi
 
 # Run container from image
+# IT_MODE default to empty if not provided
+DOCKER_IT_MODE=${1:-}
+
 print_info "Running $CONTAINER_NAME"
-docker run -it --rm \
+docker run $DOCKER_IT_MODE --rm \
     --privileged \
     -e DISPLAY \
     -e QT_X11_NO_MITSHM=1 \
@@ -229,7 +232,7 @@ docker run -it --rm \
     --runtime nvidia \
     --user="root" \
     --workdir /workspaces/isaac_ros-dev \
-    --entrypoint /usr/local/bin/scripts/camera_pipeline_entrypoint.sh \
+    --entrypoint /usr/local/bin/scripts/vampire_bringup_entrypoint.sh \
     $@ \
     $BASE_NAME \
     /bin/bash 

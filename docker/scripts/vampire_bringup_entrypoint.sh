@@ -74,8 +74,8 @@ export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isa
 export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isaac_ros_gxf/gxf/lib/:$LD_LIBRARY_PATH
 
 export DISPLAY=:0
-# ros2 launch libargus_sync_camera libargus_sync_camera.launch.py &
-ros2 launch libargus_multi_camera libargus_multi_camera.launch.py
+ros2 launch r2_vampire_bringup sensors.launch.py
+
 
 
 $@
