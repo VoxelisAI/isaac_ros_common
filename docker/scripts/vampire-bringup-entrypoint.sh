@@ -36,6 +36,5 @@ export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isa
 export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isaac_ros_gxf/gxf/lib/:$LD_LIBRARY_PATH
 
 export DISPLAY=:0
-ros2 launch r2_vampire_bringup sensors.launch.py >> runtime_logs/$(date +"%Y-%m-%d_%H-%M-%S")_log.txt 2>&1
-
+/workspaces/isaac_ros-dev/src/r2_vampire_bringup/launch/launch_and_record.sh
 $@
