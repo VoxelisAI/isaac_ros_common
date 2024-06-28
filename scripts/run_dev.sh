@@ -221,6 +221,8 @@ docker run -it --rm \
     ${DOCKER_ARGS[@]} \
     -v $VAMPIRE_ISAAC_ROS_DEV_DIR:/workspaces/isaac_ros-dev \
     -v /dev/*:/dev/* \
+    -v /dev/ttyAtmoBoard:/dev/ttyAtmoBoard \
+    -v /dev/ttyVibrationBoard:/dev/ttyVibrationBoard \
     -v /tmp:/tmp:rw \
     -v /usr/bin/nvgstcapture:/usr/bin/nvgstcapture \
     -v /usr/bin/nvgstcapture-1.0:/usr/bin/nvgstcapture-1.0 \
