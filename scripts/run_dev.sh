@@ -231,7 +231,7 @@ docker run -it --rm \
     --runtime nvidia \
     --user="root" \
     --workdir /workspaces/isaac_ros-dev \
-    --entrypoint /usr/local/bin/scripts/camera_pipeline_entrypoint.sh \
+    --entrypoint /usr/local/bin/scripts/vampire-bringup-entrypoint.sh \
     $@ \
     $BASE_NAME \
     /bin/bash 
