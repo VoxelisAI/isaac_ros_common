@@ -36,5 +36,9 @@ export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isa
 export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isaac_ros_gxf/gxf/lib/:$LD_LIBRARY_PATH
 
 export DISPLAY=:0
+# colcon build
+cd /workspaces/isaac_ros-dev
+colcon build 
+source install/setup.bash
 /workspaces/isaac_ros-dev/src/r2_vampire_bringup/launch/launch_and_record.sh 
 $@
