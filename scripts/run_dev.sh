@@ -211,7 +211,7 @@ fi
 
 # Run container from image
 print_info "Running $CONTAINER_NAME"
-docker run -it --rm \
+docker run -t --rm \
     --privileged \
     -e DISPLAY \
     -e QT_X11_NO_MITSHM=1 \
@@ -223,6 +223,7 @@ docker run -it --rm \
     -v /dev/*:/dev/* \
     -v /dev/ttyAtmoBoard:/dev/ttyAtmoBoard \
     -v /dev/ttyVibrationBoard:/dev/ttyVibrationBoard \
+    -v /dev/ttyGeorge:/dev/ttyGeorge \
     -v /tmp:/tmp:rw \
     -v /usr/bin/nvgstcapture:/usr/bin/nvgstcapture \
     -v /usr/bin/nvgstcapture-1.0:/usr/bin/nvgstcapture-1.0 \
