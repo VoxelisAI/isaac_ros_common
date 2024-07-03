@@ -36,5 +36,5 @@ export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isa
 export LD_LIBRARY_PATH=/workspaces/isaac_ros-dev/install/isaac_ros_gxf/share/isaac_ros_gxf/gxf/lib/:$LD_LIBRARY_PATH
 
 export DISPLAY=:0
-/ssd/workspaces/dev_users/Wali/Vampire/scripts/launch_and_record.sh
+/workspaces/isaac_ros-dev/src/r2_vampire_bringup/launch/launch_and_record.sh 
 $@
