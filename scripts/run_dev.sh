@@ -10,6 +10,13 @@
 
 export TERM=xterm
 
+# if entrypoint = hil, then entrypoint = vampire-bringup-entrypoint.sh else entrypoint = vampire-hil-entrypoint.sh
+if [ "$1" = "hil" ]; then
+    entrypoint="vampire-hil-entrypoint.sh"
+else
+    entrypoint="vampire-bringup-entrypoint.sh"
+fi
+
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $ROOT/utils/print_color.sh
 
@@ -232,7 +239,7 @@ docker run -t --rm \
     --runtime nvidia \
     --user="root" \
     --workdir /workspaces/isaac_ros-dev \
-    --entrypoint /usr/local/bin/scripts/vampire-bringup-entrypoint.sh \
+    --entrypoint /usr/local/bin/scripts/$1 \
     $@ \
     $BASE_NAME \
     /bin/bash 
