@@ -17,6 +17,17 @@ else
     entrypoint="vampire-bringup-entrypoint.sh"
 fi
 
+# let the user input the docker mode, ex -i, -it, -d
+if [ "$2" = "-t" ]; then
+    DOCKER_FLAGS="-t"
+elif [ "$2" = "-it" ]; then
+    DOCKER_FLAGS="-it"
+elif [ "$2" = "-d" ]; then
+    DOCKER_FLAGS="-d"
+else
+    DOCKER_FLAGS="-t"
+fi
+
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $ROOT/utils/print_color.sh
 
@@ -218,7 +229,7 @@ fi
 
 # Run container from image
 print_info "Running $CONTAINER_NAME"
-docker run -t --rm \
+docker run $DOCKER_FLAGS \
     --privileged \
     -e DISPLAY \
     -e QT_X11_NO_MITSHM=1 \
