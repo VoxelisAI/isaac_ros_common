@@ -239,7 +239,7 @@ docker run -t --rm \
     --runtime nvidia \
     --user="root" \
     --workdir /workspaces/isaac_ros-dev \
-    --entrypoint /usr/local/bin/scripts/$1 \
+    --entrypoint /usr/local/bin/scripts/$entrypoint \
     $@ \
     $BASE_NAME \
     /bin/bash 
